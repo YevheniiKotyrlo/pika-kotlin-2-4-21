@@ -1,19 +1,14 @@
 # Pika has no pika-compiler build for Kotlin 2.4.21
 
-A Kotlin/JVM project applying `kotlin("jvm") version "2.4.21"` and `id("io.github.expo.pika") version "1.1.0"`.
-Pika's Gradle plugin adds `io.github.expo.pika:pika-compiler:1.1.0-2.4.21` to the compiler plugin classpath, and Maven
-Central has builds up to `1.1.0-2.4.20`.
+A Kotlin/JVM project applying `kotlin("jvm")` and `id("io.github.expo.pika") version "1.1.1"`. The Kotlin version comes
+from the `kotlinVersion` Gradle property, 2.4.21 unless set.
 
-```
+```sh
 git clone https://github.com/YevheniiKotyrlo/pika-kotlin-2-4-21
 cd pika-kotlin-2-4-21
-./gradlew compileKotlin
+bash repro.sh
 ```
 
-Expected: `compileKotlin` succeeds. Seen:
-
-```
-> Could not find io.github.expo.pika:pika-compiler:1.1.0-2.4.21.
-```
-
-With `kotlin("jvm") version "2.4.20"` in `build.gradle.kts` the same project builds.
+`repro.sh` runs `./gradlew compileKotlin -PkotlinVersion=2.4.21`, then the same with 2.4.20 as the control. It exits 1
+while the 2.4.21 build cannot resolve `pika-compiler` for 2.4.21, 0 once it compiles, and 2 when a step fails another
+way.
